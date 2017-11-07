@@ -55,20 +55,20 @@ def get_answer_dictionary(directory):
 
             answer_dictionary[current_label] = dictionary_list
 
-    print "ID:"
-    print answer_dictionary['ID']
-    print "\nINCIDENT:"
-    print answer_dictionary['INCIDENT']
-    print "\nWEAPON:"
-    print answer_dictionary['WEAPON']
-    print "\nPERP INDIV:"
-    print answer_dictionary['PERP INDIV']
-    print "\nPERP ORG:"
-    print answer_dictionary['PERP ORG']
-    print "\nTARGET:"
-    print answer_dictionary['TARGET']
-    print "\nVICTIM:"
-    print answer_dictionary['VICTIM']
+    # print "ID:"
+    # print answer_dictionary['ID']
+    # print "\nINCIDENT:"
+    # print answer_dictionary['INCIDENT']
+    # print "\nWEAPON:"
+    # print answer_dictionary['WEAPON']
+    # print "\nPERP INDIV:"
+    # print answer_dictionary['PERP INDIV']
+    # print "\nPERP ORG:"
+    # print answer_dictionary['PERP ORG']
+    # print "\nTARGET:"
+    # print answer_dictionary['TARGET']
+    # print "\nVICTIM:"
+    # print answer_dictionary['VICTIM']
     return answer_dictionary
 
 def main():
