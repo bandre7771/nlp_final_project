@@ -22,10 +22,15 @@ def get_answer_dictionary(directory):
                 if new_item in temp_array:
                     # pdb.set_trace()
                     continue
-                temp_answer = temp_array[len(answer_dictionary[current_label]) - 1]
-
-                temp_answer += '\n' + label_array[0].strip()
-                answer_dictionary[current_label][len(answer_dictionary[current_label]) - 1] = temp_answer
+                # temp_answer = temp_array[len(answer_dictionary[current_label]) - 1]
+                new_item_split = new_item.split('/')
+                for item in new_item_split:
+                    temp_array.append(item.strip())
+                    if item.strip() in dictionary_list:
+                        # pdb.set_trace()
+                        continue
+                # temp_array.append(new_item)
+                answer_dictionary[current_label] = temp_array
                 continue
 
             new_item = label_array[1].strip()
@@ -35,37 +40,40 @@ def get_answer_dictionary(directory):
             # Check if current label is already in the dictionary
             if current_label in answer_dictionary:
                 dictionary_list = answer_dictionary[current_label]
+                if new_item in dictionary_list:
+                    # pdb.set_trace()
+                    continue
             else:
                 dictionary_list = []
 
-            # Check
-            if current_label in answer_dictionary:
-                temp_array = answer_dictionary[current_label]
-                if new_item in temp_array:
+            new_item_split = new_item.split('/')
+            for item in new_item_split:
+                dictionary_list.append(item.strip())
+                if item.strip() in dictionary_list:
                     # pdb.set_trace()
                     continue
 
-            dictionary_list.append(new_item)
             answer_dictionary[current_label] = dictionary_list
 
+    print "ID:"
+    print answer_dictionary['ID']
+    print "\nINCIDENT:"
+    print answer_dictionary['INCIDENT']
+    print "\nWEAPON:"
+    print answer_dictionary['WEAPON']
+    print "\nPERP INDIV:"
+    print answer_dictionary['PERP INDIV']
+    print "\nPERP ORG:"
+    print answer_dictionary['PERP ORG']
+    print "\nTARGET:"
+    print answer_dictionary['TARGET']
+    print "\nVICTIM:"
+    print answer_dictionary['VICTIM']
     return answer_dictionary
-
-    # print "ID:"
-    # print answer_dictionary['ID']
-    # print "\nINCIDENT:"
-    # print answer_dictionary['INCIDENT']
-    # print "\nWEAPON:"
-    # print answer_dictionary['WEAPON']
-    # print "\nPERP INDIV:"
-    # print answer_dictionary['PERP INDIV']
-    # print "\nPERP ORG:"
-    # print answer_dictionary['PERP ORG']
-    # print "\nTARGET:"
-    # print answer_dictionary['TARGET']
-    # print "\nVICTIM:"
-    # print answer_dictionary['VICTIM']
 
 def main():
     answer_dictionary = get_answer_dictionary("developset/answers/")
+
+
 if __name__ == '__main__':
     main()
