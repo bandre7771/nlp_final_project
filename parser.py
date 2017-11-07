@@ -1,4 +1,3 @@
-import nltk
 from nltk.tag import StanfordNERTagger
 from nltk.tokenize import word_tokenize
 from nltk.tag.stanford import StanfordPOSTagger
@@ -23,6 +22,7 @@ def splitFile(fileName):
 
 def parseInput(text):
 
+	print("NER")
 	st = StanfordNERTagger('./stanford-ner/classifiers/english.all.3class.distsim.crf.ser.gz',
 						   './stanford-ner/stanford-ner.jar',
 						   encoding='utf-8')
@@ -30,9 +30,11 @@ def parseInput(text):
 	tokenized_text = word_tokenize(text)
 	classified_text = st.tag(tokenized_text)
 	# print classified_text
-	return (classified_text)
+
+	return classified_text
 
 def posInput(text):
+	print("POS")
 	path_to_model = "./stanford-postagger/models/english-caseless-left3words-distsim.tagger"
 	path_to_jar = "./stanford-postagger/stanford-postagger.jar"
 	tagger=StanfordPOSTagger(path_to_model, path_to_jar)
@@ -46,4 +48,8 @@ posInput("ELECTRIC TOWERS")
 # parseInput("ENRIQUE LOPEZ ALBUJAR")
 # splitFile("sample-textfile.txt")
 # posInput("sample-textfile.txt")
+
+#splitFile("sample-textfile.txt")
+parseInput("16 SUSPECTS")
+# posInput("")
 #print(nltk.pos_tag(word_tokenize("SIX PEOPLE WERE KILLED AND FIVE WOUNDED TODAY IN A BOMB ATTACK THAT DESTROYED A PEASANT HOME IN THE TOWN OF QUINCHIA,  ABOUT  300  KM  WEST  OF  BOGOTA,  IN  THE  COFFEE-GROWING  DEPARTMENT OF RISARALDA, QUINCHIA MAYOR SAUL BOTERO HAS REPORTED.".lower())))
