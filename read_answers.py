@@ -25,7 +25,7 @@ def get_answer_dictionary(directory):
                 # temp_answer = temp_array[len(answer_dictionary[current_label]) - 1]
                 new_item_split = new_item.split('/')
                 for item in new_item_split:
-                    temp_array.append(item.strip())
+                    temp_array.append(item.strip().lower())
                     if item.strip() in dictionary_list:
                         # pdb.set_trace()
                         continue
@@ -48,27 +48,27 @@ def get_answer_dictionary(directory):
 
             new_item_split = new_item.split('/')
             for item in new_item_split:
-                dictionary_list.append(item.strip())
+                dictionary_list.append(item.strip().lower())
                 if item.strip() in dictionary_list:
                     # pdb.set_trace()
                     continue
 
             answer_dictionary[current_label] = dictionary_list
 
-    print "ID:"
-    print answer_dictionary['ID']
-    print "\nINCIDENT:"
-    print answer_dictionary['INCIDENT']
-    print "\nWEAPON:"
-    print answer_dictionary['WEAPON']
-    print "\nPERP INDIV:"
-    print answer_dictionary['PERP INDIV']
-    print "\nPERP ORG:"
-    print answer_dictionary['PERP ORG']
-    print "\nTARGET:"
-    print answer_dictionary['TARGET']
-    print "\nVICTIM:"
-    print answer_dictionary['VICTIM']
+    # print "ID:"
+    # print answer_dictionary['ID']
+    # print "\nINCIDENT:"
+    # print answer_dictionary['INCIDENT']
+    # print "\nWEAPON:"
+    # print answer_dictionary['WEAPON']
+    # print "\nPERP INDIV:"
+    # print answer_dictionary['PERP INDIV']
+    # print "\nPERP ORG:"
+    # print answer_dictionary['PERP ORG']
+    # print "\nTARGET:"
+    # print answer_dictionary['TARGET']
+    # print "\nVICTIM:"
+    # print answer_dictionary['VICTIM']
     return answer_dictionary
 
 def main():

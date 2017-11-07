@@ -15,9 +15,9 @@ def splitFile(fileName):
 	for article in articles:
 		if len(article.strip()) > 0:
 			#print(nltk.pos_tag(word_tokenize(atricle.lower())))
-			print(i)
+			# print(i)
 			# print(parseInput(article))
-			posInput(article)
+			# print posInput(article)
 
 			i += 1
 
@@ -29,8 +29,8 @@ def parseInput(text):
 
 	tokenized_text = word_tokenize(text)
 	classified_text = st.tag(tokenized_text)
-
-	print (classified_text)
+	# print classified_text
+	return (classified_text)
 
 def posInput(text):
 	path_to_model = "./stanford-postagger/models/english-caseless-left3words-distsim.tagger"
@@ -38,9 +38,12 @@ def posInput(text):
 	tagger=StanfordPOSTagger(path_to_model, path_to_jar)
 	tagger.java_options='-mx4096m'          ### Setting higher memory limit for long sentences
 	# sentence = 'THIS IS TESTING'
-	print tagger.tag(word_tokenize(text))
+	result = tagger.tag(word_tokenize(text))
+	print result
+	return result
 
-
-splitFile("sample-textfile.txt")
-# posInput("")
+posInput("ELECTRIC TOWERS")
+# parseInput("ENRIQUE LOPEZ ALBUJAR")
+# splitFile("sample-textfile.txt")
+# posInput("sample-textfile.txt")
 #print(nltk.pos_tag(word_tokenize("SIX PEOPLE WERE KILLED AND FIVE WOUNDED TODAY IN A BOMB ATTACK THAT DESTROYED A PEASANT HOME IN THE TOWN OF QUINCHIA,  ABOUT  300  KM  WEST  OF  BOGOTA,  IN  THE  COFFEE-GROWING  DEPARTMENT OF RISARALDA, QUINCHIA MAYOR SAUL BOTERO HAS REPORTED.".lower())))
