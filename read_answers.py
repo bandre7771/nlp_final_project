@@ -18,17 +18,21 @@ def get_answer_dictionary(directory):
                 if label_array == '\n':
                     continue
                 new_item = label_array[0].strip()
-                temp_array = answer_dictionary[current_label]
-                if new_item in temp_array:
-                    # pdb.set_trace()
-                    continue
-                # temp_answer = temp_array[len(answer_dictionary[current_label]) - 1]
-                new_item_split = new_item.split('/')
-                for item in new_item_split:
-                    temp_array.append(item.strip().lower())
-                    if item.strip() in dictionary_list:
+                if current_label in answer_dictionary:
+                    temp_array = answer_dictionary[current_label]
+                    if new_item in temp_array:
                         # pdb.set_trace()
                         continue
+                else:
+                    temp_array = []
+                    # temp_answer = temp_array[len(answer_dictionary[current_label]) - 1]
+                    new_item_split = new_item.split('/')
+                    for item in new_item_split:
+                        temp_array.append(item.strip().lower())
+                        if item.strip() in temp_array:
+                            # pdb.set_trace()
+                            continue
+
                 # temp_array.append(new_item)
                 answer_dictionary[current_label] = temp_array
                 continue
