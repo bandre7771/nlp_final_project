@@ -7,3 +7,4 @@ developset.tar.gz
 test.py
 .nfs0000000028c64908000008c5
 *.pyc
+*.DS_STORE

@@ -29,6 +29,7 @@ def get_victim(document, pos_document_array, parse_document_array):
     for phrase in victim_right:
         index = document.find(phrase)
         if index != -1:
+            pdb.set_trace()
 
             phrase_array = phrase.split()
             endIndex = getLocation(phrase_array, pos_document_array) + 1
