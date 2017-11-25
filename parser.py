@@ -41,15 +41,15 @@ def posInput(text):
 	tagger.java_options='-mx4096m'          ### Setting higher memory limit for long sentences
 	# sentence = 'THIS IS TESTING'
 	result = tagger.tag(word_tokenize(text))
-	print result
+	# print result
 	return result
 
-posInput("ELECTRIC TOWERS")
+# posInput("ELECTRIC TOWERS")
 # parseInput("ENRIQUE LOPEZ ALBUJAR")
 # splitFile("sample-textfile.txt")
 # posInput("sample-textfile.txt")
 
 #splitFile("sample-textfile.txt")
-parseInput("16 SUSPECTS")
+# parseInput("16 SUSPECTS")
 # posInput("")
 #print(nltk.pos_tag(word_tokenize("SIX PEOPLE WERE KILLED AND FIVE WOUNDED TODAY IN A BOMB ATTACK THAT DESTROYED A PEASANT HOME IN THE TOWN OF QUINCHIA,  ABOUT  300  KM  WEST  OF  BOGOTA,  IN  THE  COFFEE-GROWING  DEPARTMENT OF RISARALDA, QUINCHIA MAYOR SAUL BOTERO HAS REPORTED.".lower())))
