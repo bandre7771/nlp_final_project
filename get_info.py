@@ -72,15 +72,16 @@ def main():
     articles.pop(0)
     for i in range(len(articles)):
         # pdb.set_trace()
+        victim = get_victim(articles[i], pos_documents_array[i], parse_documents_array[i])
+        if not victim:
+            victim = '-'
         results += 'ID:\t\t' + str(get_id(articles[i])) + '\n'
         results += 'INCIDENT:\t' + '-\n'#getIncident(article) + '\n'
         results += 'WEAPON:\t\t' + '-\n'#'\n'.join(getWeapon(article)) + '\n'
         results += 'PERP INDIV:\t' +'-\n'# getPerp(article) + '\n'
         results += 'PERP ORG:\t' + '-\n'#get_perp_org(article) + '\n'
         results += 'TARGET:\t\t' + '-\n'#get_target(article) + '\n'
-        results += 'VICTIM:\t\t' + get_victim(articles[i],
-                                            pos_documents_array[i],
-                                            parse_documents_array[i]) + '\n\n'
+        results += 'VICTIM:\t\t' + victim + '\n\n'
 
     f = open(file_name + '.templates', 'w')
     f.write(results)  # python will convert \n to os.linesep
