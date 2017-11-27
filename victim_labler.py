@@ -121,6 +121,8 @@ def getVictimAfterComma(index, pos_document_array):
 def getRightResult(pos_document_array, endIndex):
     result = ""
     for k in range(0, 6):
+        if k + endIndex >= len(pos_document_array):
+            break
         if pos_document_array[k + endIndex][1].startswith('NN'):# == 'NNP':
             result = str(k + endIndex)
             while True:

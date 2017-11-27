@@ -19,11 +19,20 @@ robbery = set(["ROBBED", "ROBBING", "ROBBERY"])
 pre_perp_org = set(["CLAIMED", "CLAIMED RESPONSIBILITY", "OPERATING"])
 post_perp_org = set(["PANAMA FROM", "COMMAND OF", "WING OF ", "KIDNAPPED BY", "GUERILLAS OF", "KINGPINS OF", "ATTACKS BY"])
 
-post_perp = set(["WORK OF", "GROUP OF", "STAGED BY"])
-pre_perp = set(["PARTICIPATED", "WERE INVOLVED", "ACTED"])
+real_perp = set(["SALVADORAN", "GUERRILLAS", "COLONEL"])
 
-post_target = set(["DESTROYED", "ATTACKS"])
-pre_target = set(["HAVE PARTICIPATED", "ABDUCTED BY", "PERPETRATED BY"])
+post_perp = set(["HAVE ACCUSED", "WORK OF", "GROUP OF", "STAGED BY", "PLANNED BY", "CARRIED OUT", "PERPETRATED BY",
+"BEEN REPORTED", "KIDNAPPED", "SHOT BY"])
+
+pre_perp = set(["HAVE PARTICIPATED", "WERE INVOLVED", "THE PERPETRATOR", "WAS RESPONSIBLE",
+"CLAIMED RESPONSIBILITY", "HELD RESPONSIBLE", "HAVE KILLED",
+"SET ABLAZE", "WERE SEEKING", "OPENED FIRE", "SET FIRE", "WERE SEEN", "SET OFF"])
+
+
+post_target = set(["ABDUCTED BY", "PERPETRATED BY",
+"ATTACKS ON", "FIRED AT", "SET FIRE", "BOMB PLANTED", "BURNING", "ATTACKED THE", "ATTACK ON"])
+
+pre_target = set(["HAVE PARTICIPATED", "WAS DERAILED", "WERE ARRESTED", "WAS DYNAMITED", "WAS ATTACKED", "DESTROYED"])
 
 
 def get_id(document):
@@ -60,14 +69,67 @@ def getWeapon(article):
     return weaponsList
 
 def getPerp(article, pos_document_array, parse_document_array):
+    if "GUERRILLAS" in article:
+        return "GUERRILLAS"
+
     result = ""
-    for phrase in post_perp:
+    for phrase in real_perp:
+        index = article.find(phrase)
+        if index != -1:
+                phrase_array = phrase.split()
+                endIndex = getLocation(phrase_array, pos_document_array)
+                result += '\n' + getRightResult(pos_document_array, endIndex)
+                result += '\n' + getLeftResult(pos_document_array, endIndex)
+
+#    for phrase in post_perp:
+#        index = article.find(phrase)
+#        if index != -1:
+#                phrase_array = phrase.split()
+#                endIndex = getLocation(phrase_array, pos_document_array) + 1
+#                result += '\n' + getRightResult(pos_document_array, endIndex)
+#    for phrase in pre_perp:
+#        index = article.find(phrase)
+#        if index != -1:
+#            phrase_array = phrase.split()
+#            endIndex = getLocation(phrase_array, pos_document_array)
+#            result += '\n' + getLeftResult(pos_document_array, endIndex)
+	result = result.strip()
+    if result == "" or result == None:
+        return '-'
+
+    result = cleanResult(result, parse_document_array)
+    return result
+def getTarget(article, pos_document_array, parse_document_array):
+    result = ""
+    for phrase in post_target:
         index = article.find(phrase)
         if index != -1:
                 phrase_array = phrase.split()
                 endIndex = getLocation(phrase_array, pos_document_array) + 1
                 result += '\n' + getRightResult(pos_document_array, endIndex)
-    for phrase in pre_perp:
+    for phrase in pre_target:
+        index = article.find(phrase)
+        if index != -1:
+            phrase_array = phrase.split()
+            endIndex = getLocation(phrase_array, pos_document_array)
+            result += '\n' + getLeftResult(pos_document_array, endIndex)
+
+	result = result.strip()
+    if result == "" or result == None:
+        return '-'
+
+    result = cleanResult(result, parse_document_array)
+    return result
+
+def getPerpOrg(article, pos_document_array, parse_document_array):
+    result = ""
+    for phrase in post_perp_org:
+        index = article.find(phrase)
+        if index != -1:
+                phrase_array = phrase.split()
+                endIndex = getLocation(phrase_array, pos_document_array) + 1
+                result += '\n' + getRightResult(pos_document_array, endIndex)
+    for phrase in pre_perp_org:
         index = article.find(phrase)
         if index != -1:
             phrase_array = phrase.split()
@@ -106,8 +168,8 @@ def main():
         results += 'INCIDENT:\t' + getIncident(articles[i]) + '\n'
         results += 'WEAPON:\t\t' + '\n'.join(getWeapon(articles[i])) + '\n'
         results += 'PERP INDIV:\t' + getPerp(articles[i], pos_documents_array[i], parse_documents_array[i]) + '\n'
-        results += 'PERP ORG:\t' + get_perp_org(articles[i]) + '\n'
-        results += 'TARGET:\t\t' + get_target(articles[i]) + '\n'
+        results += 'PERP ORG:\t' + getPerpOrg(articles[i], pos_documents_array[i], parse_documents_array[i]) + '\n'
+        results += 'TARGET:\t\t' + getTarget(articles[i], pos_documents_array[i], parse_documents_array[i]) + '\n'
         results += 'VICTIM:\t\t' + get_victim(articles[i],
                                             pos_documents_array[i],
                                             parse_documents_array[i]) + '\n\n'
