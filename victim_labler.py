@@ -175,6 +175,8 @@ def getRightResult(pos_document_array, endIndices):
     for endIndex in endIndices:
 
         for k in range(0, 9):
+            if k + endIndex >= len(pos_document_array):
+                break
             pos_item = pos_document_array[k + endIndex]
             if pos_item[1].startswith('NN') and not pos_item[0] == '[' and not pos_item[0] == ']':# == 'NNP':
                 result += str(k + endIndex)
