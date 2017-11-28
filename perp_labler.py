@@ -5,13 +5,32 @@ from read_answers import get_answer_dictionary
 # While stepping backwards check for phrases that talk about the victim_right
 # If there is a comma and there is not
 # Result can not include "PERSON"
-post_perp = set(["WORK OF", "GROUP OF", "STAGED BY"])
-pre_perp = set(["PARTICIPATED", "WERE INVOLVED", "ACTED"])
+post_perp = set(["HAVE ACCUSED", "WORK OF", "GROUP OF", "STAGED BY", "PLANNED BY", "CARRIED OUT", "PERPETRATED BY",
+"BEEN REPORTED", "KIDNAPPED BY", "SHOT BY", "HIT BY", "COMMITTED BY"])
 
+pre_perp = set(["HAVE PARTICIPATED", "WERE INVOLVED", "THE PERPETRATOR", "WAS RESPONSIBLE",
+"CLAIMED RESPONSIBILITY", "HELD RESPONSIBLE", "HAVE KILLED", "ARE RESPONSIBLE"
+"SET ABLAZE", "WERE SEEKING", "OPENED FIRE", "SET FIRE", "WERE SEEN", "SET OFF",
+"DESTROYED A", "TERRORIST", "TERRORISTS", "KIDNAPPED", "ACTIONS AGAINST", "HELD RESPONSIBLE"
 
+"HAVE\nPARTICIPATED", "WERE\nINVOLVED", "THE\nPERPETRATOR", "WAS\nRESPONSIBLE",
+"CLAIMED\nRESPONSIBILITY", "HELD\nRESPONSIBLE", "HAVE\nKILLED", "ARE\nRESPONSIBLE"
+"SET\nABLAZE", "WERE\nSEEKING", "OPENED\nFIRE", "SET\nFIRE", "WERE\nSEEN", "SET\nOFF",
+"DESTROYED\nA", "ACTIONS\nAGAINST", "HELD\nRESPONSIBLE"])
 
+people_not_covered = ['LUIS', 'OSCAR', 'DINO', 'ROSSY']
 def getPerp(article, pos_document_array, parse_document_array):
+    article.strip()
     result = ""
+    if "GUERRILLAS" in article:
+        return "GUERRILLAS"
+    elif "DEATH SQUADS" in article:
+        return "DEATH SQUADS"
+    elif "TERRORISTS" in article:
+        return "TERRORISTS"
+    elif "TERRORIST" in article:
+        return "TERRORIST"
+
     for phrase in post_perp:
         index = article.find(phrase)
         if index != -1:
@@ -24,7 +43,6 @@ def getPerp(article, pos_document_array, parse_document_array):
             phrase_array = phrase.split()
             endIndex = getLocations(phrase_array, pos_document_array)
             result += '\n' + getLeftResult(pos_document_array, endIndex)
-
 	result = result.strip()
     if result == "" or result == None:
         return '-'
@@ -38,7 +56,7 @@ def getLeftResult(pos_document_array, endIndices):
     for endIndex in endIndices:
         for k in range(0, 9):
             pos_item = pos_document_array[endIndex - k]
-            if pos_item[1].startswith('NN') and not pos_item[0] == '[' and not pos_item[0] == ']':# == 'NNP':
+            if pos_item[1].startswith('NN') or pos_item[1].startswith('CD') or pos_item[1].startswith('JJ') or pos_item[1].startswith('DT') and not pos_item[0] == '[' and not pos_item[0] == ']':# == 'NNP':
                 # result = str(endIndex - k) + ' '
                 while True:
                     pos_item = pos_document_array[endIndex - k]
@@ -126,7 +144,7 @@ def getRightResult(pos_document_array, endIndices):
 
         for k in range(0, 9):
             pos_item = pos_document_array[k + endIndex]
-            if pos_item[1].startswith('NN') and not pos_item[0] == '[' and not pos_item[0] == ']':# == 'NNP':
+            if pos_item[1].startswith('NN') or pos_item[1].startswith('CD') or pos_item[1].startswith('JJ') or pos_item[1].startswith('DT') and not pos_item[0] == '[' and not pos_item[0] == ']':# == 'NNP':
                 result += str(k + endIndex)
                 while True:
                     pos_item = pos_document_array[k + endIndex]

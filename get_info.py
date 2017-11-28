@@ -4,8 +4,9 @@ from read_answers import *
 from parser import *
 from id_labler import get_id
 from perp_org_labeler import *
-from target_labler import *
 from victim_labler import *
+from perp_labler import *
+from target_labeler import *
 
 answer_dictionary = get_answer_dictionary("developset/answers/")
 # answer_dictionary2 = get_answer_dictionary('developset/testset1/answerkeys/')
@@ -37,10 +38,6 @@ robbery = set(["ROBBED", "ROBBING", "ROBBERY"])
 
 pre_perp_org = set(["CLAIMED", "CLAIMED RESPONSIBILITY", "OPERATING"])
 post_perp_org = set(["PANAMA FROM", "COMMAND OF", "WING OF ", "KIDNAPPED BY", "GUERILLAS OF", "KINGPINS OF", "ATTACKS BY"])
-
-post_target = set(["DESTROYED", "ATTACKS"])
-pre_target = set(["HAVE PARTICIPATED", "ABDUCTED BY", "PERPETRATED BY"])
-
 
 def get_id(document):
 
@@ -90,27 +87,27 @@ def getWeapon(article, pos_document_array):
         weaponsList.add("-")
     return weaponsList
 
-# def getPerp(article, pos_document_array, parse_document_array):
-#     result = ""
-#     for phrase in post_perp:
-#         index = article.find(phrase)
-#         if index != -1:
-#                 phrase_array = phrase.split()
-#                 endIndex = [x+1 for x in getLocations(phrase_array, pos_document_array)]
-#                 result += '\n' + getRightResult(pos_document_array, endIndex)
-#     for phrase in pre_perp:
-#         index = article.find(phrase)
-#         if index != -1:
-#             phrase_array = phrase.split()
-#             endIndex = getLocations(phrase_array, pos_document_array)
-#             result += '\n' + getLeftResult(pos_document_array, endIndex)
-#
-# 	result = result.strip()
-#     if result == "" or result == None:
-#         return '-'
-#
-#     result = cleanResult(result, parse_document_array)
-#     return result
+def getTarget(article, pos_document_array, parse_document_array):
+    result = ""
+    for phrase in post_target:
+        index = article.find(phrase)
+        if index != -1:
+                phrase_array = phrase.split()
+                endIndex = [x+1 for x in getLocations(phrase_array, pos_document_array)]
+                result += '\n' + getRightResult(pos_document_array, endIndex)
+    for phrase in pre_target:
+        index = article.find(phrase)
+        if index != -1:
+            phrase_array = phrase.split()
+            endIndex = getLocations(phrase_array, pos_document_array)
+            result += '\n' + getLeftResult(pos_document_array, endIndex)
+
+	result = result.strip()
+    if result == "" or result == None:
+        return '-'
+
+    result = cleanResult(result, parse_document_array)
+    return result
 
 
 def main():
@@ -128,25 +125,27 @@ def main():
         text += line
 
     articles.append(text)
-    # pos_documents_array = getPosDocuments(articles)
-    # parse_documents_array = getParseDocuments(articles)
+    pos_documents_array = getPosDocuments(articles)
+    parse_documents_array = getParseDocuments(articles)
     articles.pop(0)
     for i in range(len(articles)):
-        # pdb.set_trace()
-        # victim = get_victim(articles[i], pos_documents_array[i], parse_documents_array[i])
-        # if not victim:
-        #     victim = '-'
-        # perp_org = get_perp_org(articles[i], pos_documents_array[i], parse_documents_array[i])
-        # if not perp_org:
-        #     perp_org = '-'
+<<<<<<< HEAD
+        victim = get_victim(articles[i], pos_documents_array[i], parse_documents_array[i])
+        if not victim:
+            victim = '-'
+        perp_org = get_perp_org(articles[i], pos_documents_array[i], parse_documents_array[i])
+        if not perp_org:
+            perp_org = '-'
+        target = getTarget(articles[i], pos_documents_array[i], parse_documents_array[i])
+        if not target:
+            target = "-"
         results += 'ID:\t\t' + str(get_id(articles[i])) + '\n'
-        results += 'INCIDENT:\t-\n'# + getIncident(articles[i]) + '\n'
+        results += 'INCIDENT:\t' + getIncident(articles[i]) + '\n'
         results += 'WEAPON:\t\t' + '\n'.join(getWeapon(articles[i])) + '\n'
-        results += 'PERP INDIV:\t-\n'# + getPerp(articles[i], pos_documents_array[i], parse_documents_array[i]) + '\n'
-        results += 'PERP ORG:\t-\n'# + perp_org + '\n'
-        results += 'TARGET:\t\t-\n'# + get_target(articles[i]) + '\n'
-        results += 'VICTIM:\t\t-\n\n'# + victim + '\n\n'
-
+        results += 'PERP INDIV:\t' + getPerp(articles[i], pos_documents_array[i], parse_documents_array[i]) + '\n'
+        results += 'PERP ORG:\t' + perp_org + '\n'
+        results += 'TARGET:\t\t' + target + '\n'
+        results += 'VICTIM:\t\t' + victim + '\n\n'
 
     f = open(file_name + '.templates', 'w')
     f.write(results)  # python will convert \n to os.linesep
