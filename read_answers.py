@@ -28,7 +28,7 @@ def get_answer_dictionary(directory):
                     # temp_answer = temp_array[len(answer_dictionary[current_label]) - 1]
                     new_item_split = new_item.split('/')
                     for item in new_item_split:
-                        temp_array.append(item.strip().lower())
+                        temp_array.append(item.strip())
                         if item.strip() in temp_array:
                             # pdb.set_trace()
                             continue
@@ -52,7 +52,7 @@ def get_answer_dictionary(directory):
 
             new_item_split = new_item.split('/')
             for item in new_item_split:
-                dictionary_list.append(item.strip().lower())
+                dictionary_list.append(item.strip())
                 if item.strip() in dictionary_list:
                     # pdb.set_trace()
                     continue
